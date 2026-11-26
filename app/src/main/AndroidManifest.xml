@@ -5,6 +5,20 @@
     <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- Background listening, also with the screen off -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Floating orb, and permission to open apps from the background -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Only used by plugins that fetch information from the internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- Android 11+ hides other apps/services unless declared here -->
     <queries>
         <intent>
@@ -23,14 +37,30 @@
         android:allowBackup="true"
         android:label="Jarvis"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".JarvisService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
+
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
